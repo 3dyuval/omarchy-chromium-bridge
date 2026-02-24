@@ -9,7 +9,8 @@
       "*://github.com/*",
       "*://gitlab.com/*",
       "*://codeberg.org/*",
-      "*://bitbucket.org/*"
+      "*://bitbucket.org/*",
+      "*://*/*.md"
     ],
     "js": ["content.js"],
     "run_at": "document_idle"
