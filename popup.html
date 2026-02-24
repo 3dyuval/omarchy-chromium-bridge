@@ -43,6 +43,19 @@
     font-size: 12px;
   }
   button:hover { background: rgba(255,255,255,0.15); }
+  details {
+    margin-top: 10px;
+    font-size: 11px;
+    opacity: 0.7;
+  }
+  summary {
+    cursor: pointer;
+    font-size: 11px;
+  }
+  details p {
+    margin: 6px 0 0;
+    line-height: 1.4;
+  }
 </style>
 </head>
 <body>
@@ -50,6 +63,10 @@
   <div class="current" id="current">Loading...</div>
   <div class="status" id="status">Syncs every 60s</div>
   <button id="sync">Sync Now</button>
+  <details>
+    <summary>Why polling?</summary>
+    <p>Chrome MV3 killed persistent background pages. The service worker hibernates after ~30s of inactivity and can't hold a socket open. <code>chrome.alarms</code> is the only reliable way to wake it periodically. A WebSocket would get dropped every time the worker sleeps.</p>
+  </details>
   <script src="popup.js"></script>
 </body>
 </html>
