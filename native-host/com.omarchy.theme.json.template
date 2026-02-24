@@ -1,0 +1,9 @@
+{
+    "name": "com.omarchy.theme",
+    "description": "Omarchy theme bridge - returns current theme CSS for browser extension",
+    "path": "/home/yuv/.config/omarchy-theme/omarchy_theme_host.sh",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://dmapojlcklnkobakfjmnnlplnplchhmh/"
+    ]
+}
