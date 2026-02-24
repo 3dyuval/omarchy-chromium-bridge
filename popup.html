@@ -43,15 +43,49 @@
     font-size: 12px;
   }
   button:hover { background: rgba(255,255,255,0.15); }
+  .sync-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+  .sync-row button {
+    margin: 0;
+    flex-shrink: 0;
+    width: auto;
+    padding: 6px 10px;
+  }
+  .sync-row label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .sync-row input[type=number] {
+    width: 36px;
+    padding: 3px 4px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.05);
+    color: inherit;
+    font-size: 11px;
+    font-family: inherit;
+    text-align: center;
+  }
+  .info-icon {
+    cursor: pointer;
+    opacity: 0.5;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .info-icon:hover { opacity: 0.8; }
   details {
-    margin-top: 10px;
     font-size: 11px;
     opacity: 0.7;
   }
-  summary {
-    cursor: pointer;
-    font-size: 11px;
-  }
+  details summary { list-style: none; height: 0; overflow: hidden; }
   details p {
     margin: 6px 0 0;
     line-height: 1.4;
@@ -61,10 +95,14 @@
 <body>
   <h3>Omarchy Theme</h3>
   <div class="current" id="current">Loading...</div>
-  <div class="status" id="status">Syncs every 60s</div>
-  <button id="sync">Sync Now</button>
-  <details>
-    <summary>Why polling?</summary>
+  <div class="sync-row">
+    <button id="sync">Sync Now</button>
+    <label>every <input type="number" id="interval" min="1" max="60" value="1">m</label>
+    <img src="icons/icon16.png" class="info-icon" id="info-toggle" alt="info">
+  </div>
+  <div class="status" id="status"></div>
+  <details id="info">
+    <summary></summary>
     <p>Chrome MV3 killed persistent background pages. The service worker hibernates after ~30s of inactivity and can't hold a socket open. <code>chrome.alarms</code> is the only reliable way to wake it periodically. A WebSocket would get dropped every time the worker sleeps.</p>
   </details>
   <script src="popup.js"></script>

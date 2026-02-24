@@ -1,7 +1,7 @@
 'use strict';
 
 const NATIVE_HOST = 'com.omarchy.theme';
-const POLL_INTERVAL_MINUTES = 1;
+const DEFAULT_INTERVAL = 1;
 
 function queryNativeHost(request) {
   return new Promise((resolve) => {
@@ -27,8 +27,14 @@ async function syncTheme() {
   return response;
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.alarms.create('poll-theme', { periodInMinutes: POLL_INTERVAL_MINUTES });
+async function createAlarm(minutes) {
+  await chrome.alarms.clear('poll-theme');
+  chrome.alarms.create('poll-theme', { periodInMinutes: minutes });
+}
+
+chrome.runtime.onInstalled.addListener(async () => {
+  const { pollInterval } = await chrome.storage.local.get('pollInterval');
+  createAlarm(pollInterval || DEFAULT_INTERVAL);
   syncTheme();
 });
 
@@ -42,5 +48,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse(response || { error: 'Native host unavailable' });
     });
     return true;
+  }
+  if (message.action === 'set_interval') {
+    createAlarm(message.minutes);
+    sendResponse({ ok: true });
   }
 });
